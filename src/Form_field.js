@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 
 function Form_field() {
+  const [data, setData] = useState([{}])
   const [division, setDivision] = useState('');
   const [numberOfSubjects, setNumberOfSubjects] = useState(0);
   const [subjects, setSubjects] = useState([]);
@@ -69,18 +70,19 @@ function Form_field() {
     };
     console.log('Data sent to backend:', data); // Log the data before sending it to the backend
     try {
-      // const response = await fetch('YOUR_BACKEND_URL', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(data),
-      // });
-      // if (response.ok) {
-      //   console.log('Timetable generated successfully!');
-      // } else {
-      //   console.error('Failed to generate timetable.');
-      // }
+      const response = await fetch('http://localhost:5000/timetable', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      if (response.ok) {
+        const responseData = await response.json(); // Parse response JSON
+        console.log("Response from backend", responseData);
+      } else {
+        console.error('Failed to generate timetable.');
+      }
     } catch (error) {
       console.error('Error:', error);
     }
@@ -250,7 +252,9 @@ function Form_field() {
         </label>
         <br />
         <br />
+        <a href='/timetable'>
         <button type="submit">Generate Timetable</button>
+        </a>
       </form>
     </div>
   );
