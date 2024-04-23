@@ -46,7 +46,6 @@ def generate_timetable(classrooms, total_subjects, faculties, time_slots, days):
     # return time_table
 
     time_table = {}
-    final_tt = [time_table]
     # Initialize the timetable with empty slots for each day and time slot
     for day in days:
         time_table[day] = {}
@@ -56,6 +55,8 @@ def generate_timetable(classrooms, total_subjects, faculties, time_slots, days):
 
     classroom_availability = [[0] * classrooms for _ in range(len(time_slots))]
     faculty_schedule = {faculty: {day: [0] * len(time_slots) for day in days} for faculty in faculties}
+    
+    final_tt = [time_table,classroom_availability,faculty_schedule]
 
     subject = 0
     for slot in range(len(time_slots)):
@@ -111,9 +112,6 @@ def get_timetable():
 
     time_slots = [0,1,2,3,4,5,6,7]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-
-    for div in range(1, len(division) + 1):
-         print(div)
 
     timetable_generated = generate_timetable(num_classrooms, total_subjects, faculties, time_slots, days)
     # timetable = Timetable(division=division, timetable_data=timetable_generated)

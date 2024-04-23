@@ -57,7 +57,7 @@ function Form_field() {
         console.log("Response from backend", responseData);
         setFields(responseData)
        // Set the redirect state to true
-       window.location.href('http://localhost:3000/timetable')
+      //  window.location.href('http://localhost:3000/timetable')
       } else {
         console.error('Failed to generate timetable.');
       }
@@ -216,7 +216,7 @@ function Form_field() {
           />
         </label>
         <br />
-        <label>
+     {/* <label>
           Time for Lunch Break:
           <select
             value={lunchBreak}
@@ -228,7 +228,7 @@ function Form_field() {
             <option value="90">1 Hour 30 Minutes</option>
             <option value="120">2 Hours</option>
           </select>
-        </label>
+        </label> */}   
         <br />
         <br />
         <a href='/timetable'>

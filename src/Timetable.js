@@ -6,6 +6,15 @@ function Timetable() {
   const [timetable, setTimetable] = useState([]);
   const { fields } = useContext(TimeTableContext);
   const [finalData, setFinalData] = useState([])
+  const [classrooms, setClassrooms] = useState(Array.from({ length: 3 }, () => Array(4).fill(0)));
+  const [faculty, setFaculty] = useState([
+    {
+      "Chintan": null,
+      "Rajeev sir": null,
+      "Sameer sir": null,
+      "Shakti maam": null
+    }
+  ]);
 
   console.log('Fields: ', fields)
 
@@ -69,9 +78,10 @@ function Timetable() {
 
     console.log("I'm in else block")
       convertSchedule(fields)
-  }
-  
-  }, []);
+      setClassrooms(fields[1])
+      setFaculty(fields[2])
+    }
+  }, [fields]);
 
   const convertSchedule = (originalData) => {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -106,6 +116,7 @@ function Timetable() {
       });
     });
 
+    console.log("converted Data: ",fields[2])
     setTimetable(convertedData)
   };
 
@@ -118,6 +129,16 @@ function Timetable() {
     // Code to download the timetable as a file
     const element = document.createElement('a');
     const file = new Blob([JSON.stringify(timetable)], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'timetable.json';
+    document.body.appendChild(element);
+    element.click();
+  };
+
+  const downloadClassroom = () => {
+    // Code to download the timetable as a file
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(classrooms)], { type: 'text/plain' });
     element.href = URL.createObjectURL(file);
     element.download = 'timetable.json';
     document.body.appendChild(element);
@@ -235,6 +256,52 @@ function Timetable() {
           Download
         </Button>{' '}
       </div>
+      <TableContainer>
+        <h1>Classroom Availablity</h1>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Classroom</TableCell>
+            {Array.from({ length: classrooms[0].length }, (_, index) => (
+              <TableCell key={index} align="center">{index + 1}</TableCell>
+            ))}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {classrooms.map((row, rowIndex) => (
+            <TableRow key={rowIndex}>
+              <TableCell>{`slot ${rowIndex + 1}`}</TableCell>
+              {row.map((availability, columnIndex) => (
+                <TableCell key={columnIndex} align="center">{availability == 1 ? "Not Available" : "Available"}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    <div style={{ marginTop: '20px' }}>
+        <Button onClick={downloadClassroom} variant="contained" size="small" color="primary">
+          Download
+        </Button>{' '}
+      </div>
+      <TableContainer>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>Faculty schedule</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {faculty.map((facultyObj, index) => (
+            <TableRow key={index}>
+              {Object.entries(facultyObj).map(([name, value]) => (
+                <TableCell key={name}>{value}</TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
     </div>
   );
 }
