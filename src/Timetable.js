@@ -1,70 +1,18 @@
-// import React, { useState, useEffect } from 'react';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-
-// function Timetable() {
-//   const [timetable, setTimetable] = useState([]);
-
-//   useEffect(() => {
-//     // Fetch timetable data from the backend
-//     fetchTimetableData();
-//   }, []);
-
-//   const fetchTimetableData = () => {
-//     // Fetch timetable data from the backend API
-//     fetch('http://your-backend-api-url/timetable')
-//       .then(response => response.json())
-//       .then(data => {
-//         setTimetable(data.timetable);
-//       })
-//       .catch(error => {
-//         console.error('Error fetching timetable data:', error);
-//       });
-//   };
-
-//   return (
-//     <TableContainer component={Paper}>
-//       <Table>
-//         <TableHead>
-//           <TableRow>
-//             <TableCell>Day</TableCell>
-//             <TableCell>Time</TableCell>
-//             <TableCell>Subject</TableCell>
-//             <TableCell>Faculty</TableCell>
-//             <TableCell>Classroom</TableCell>
-//           </TableRow>
-//         </TableHead>
-//         <TableBody>
-//           {timetable.map(day => (
-//             <React.Fragment key={day.day}>
-//               <TableRow>
-//                 <TableCell rowSpan={day.periods.length + 1}>{day.day}</TableCell>
-//               </TableRow>
-//               {day.periods.map(period => (
-//                 <TableRow key={period.time}>
-//                   <TableCell>{period.time}</TableCell>
-//                   <TableCell>{period.subject}</TableCell>
-//                   <TableCell>{period.faculty}</TableCell>
-//                   <TableCell>{period.classroom}</TableCell>
-//                 </TableRow>
-//               ))}
-//             </React.Fragment>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//   );
-// }
-
-// export default Timetable;
-// -----------------------------------------------------------------------------------------------------------------------------------------------
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { TimeTableContext } from './App';
 
 function Timetable() {
   const [timetable, setTimetable] = useState([]);
+  const { fields } = useContext(TimeTableContext);
+  const [finalData, setFinalData] = useState([])
+
+  const daysOfWeek = Object.keys(fields);
+
+  console.log('Fields: ', fields)
 
   useEffect(() => {
-    // Mock timetable data
+    // Use mock timetable data if actual data is not present
     const mockTimetableData = [
       {
         day: 'Monday',
@@ -110,8 +58,50 @@ function Timetable() {
       },
     ];
 
-    setTimetable(mockTimetableData);
-  }, []);
+    if (!fields || Object.keys(fields).length === 0) {
+      // If fields are undefined, null, or empty, set mock timetable data
+      setTimetable(mockTimetableData);
+    } else {
+      // If fields are not empty, convert the schedule
+      convertSchedule(fields);
+    }
+  }, [fields],[]);
+
+  const convertSchedule = (originalData) => {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const convertedData = [];
+
+    days.forEach(day => {
+      const periods = [];
+
+      Object.values(originalData[0][day]).forEach((period, index) => {
+        if (period.classroom !== null && period.faculty !== null && period.subject !== null) {
+          // Modify time according to index
+          let time = '';
+          if (index < 3) time = '9:00 AM';
+          else if (index === 3) time = '11:00 AM';
+          else if (index === 4) time = '1:00 PM';
+          else if (index === 5) time = '2:00 PM';
+          else if (index === 6) time = '4:00 PM';
+
+          periods.push({
+            time,
+            subject: 'Subject', // You should replace this with the actual subject
+            faculty: period.faculty,
+            classroom: period.classroom.toString()
+          });
+        }
+      });
+
+      convertedData.push({
+        day,
+        periods
+      });
+    });
+
+    setTimetable(convertedData)
+  };
+  
 
   const viewTimetable = () => {
     console.log(timetable);
@@ -250,215 +240,3 @@ function Timetable() {
 
 export default Timetable;
 
-
-// ---------------------------------------------------------------------------------------------------------------------------------------------
-// import React, { useState, useEffect } from 'react';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-
-// function Timetable() {
-//   const [timetable, setTimetable] = useState([]);
-//   const [startTime, setStartTime] = useState('');
-//   const [endTime, setEndTime] = useState('');
-
-//   useEffect(() => {
-//     const fetchTimetable = async () => {
-//       try {
-//         const response = await fetch('YOUR_BACKEND_URL');
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch data from the server');
-//         }
-//         const data = await response.json();
-//         setTimetable(data.timetable);
-//         setStartTime(data.startTime);
-//         setEndTime(data.endTime);
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-//     fetchTimetable();
-//   }, []);
-
-//   const viewTimetable = () => {
-//     console.log(timetable);
-//   };
-
-//   const downloadTimetable = () => {
-//     const element = document.createElement('a');
-//     const file = new Blob([JSON.stringify(timetable)], { type: 'text/plain' });
-//     element.href = URL.createObjectURL(file);
-//     element.download = 'timetable.json';
-//     document.body.appendChild(element);
-//     element.click();
-//   };
-
-//   const regenerateTimetable = () => {
-//     // Implement a function to regenerate timetable
-//   };
-
-//   const generateTimeSlots = () => {
-//     const timeSlots = [];
-//     const start = new Date(`01/01/2000 ${startTime}`);
-//     const end = new Date(`01/01/2000 ${endTime}`);
-//     while (start < end) {
-//       timeSlots.push(start.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
-//       start.setHours(start.getHours() + 1);
-//     }
-//     return timeSlots;
-//   };
-
-//   return (
-//     <div>
-//       <TableContainer component={Paper}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>Day/Time</TableCell>
-//               {generateTimeSlots().map((slot, index) => (
-//                 <TableCell key={index}>{slot}</TableCell>
-//               ))}
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {timetable.map((day, index) => (
-//               <TableRow key={index}>
-//                 <TableCell>{day.day}</TableCell>
-//                 {generateTimeSlots().map((slot, index) => (
-//                   <TableCell key={index}>
-//                     {day.periods
-//                       .filter((period) => period.time === slot)
-//                       .map((period, index) => (
-//                         <div key={index}>
-//                           <div>Subject: {period.subject}</div>
-//                           <div>Faculty: {period.faculty}</div>
-//                           <div>Classroom: {period.classroom}</div>
-//                         </div>
-//                       ))}
-//                   </TableCell>
-//                 ))}
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//       <div style={{ marginTop: '20px' }}>
-//         <Button onClick={viewTimetable} variant="contained" color="primary">
-//           View
-//         </Button>{' '}
-//         <Button onClick={downloadTimetable} variant="contained" color="success">
-//           Download
-//         </Button>{' '}
-//         <Button onClick={regenerateTimetable} variant="contained" color="secondary">
-//           Regenerate
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Timetable;
-// ----------@ 2nd thing----------------
-// import React, { useState, useEffect } from 'react';
-// import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
-
-// function Timetable() {
-//   const [timetable, setTimetable] = useState([]);
-//   const [startTime, setStartTime] = useState('');
-//   const [endTime, setEndTime] = useState('');
-
-//   useEffect(() => {
-//     const fetchTimetable = async () => {
-//       try {
-//         const response = await fetch('YOUR_BACKEND_URL');
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch data from the server');
-//         }
-//         const data = await response.json();
-//         setTimetable(data.timetable);
-//         setStartTime(data.startTime);
-//         setEndTime(data.endTime);
-//       } catch (error) {
-//         console.error('Error:', error);
-//       }
-//     };
-//     fetchTimetable();
-//   }, []);
-
-//   const viewTimetable = () => {
-//     console.log(timetable);
-//   };
-
-//   const downloadTimetable = () => {
-//     const element = document.createElement('a');
-//     const file = new Blob([JSON.stringify(timetable)], { type: 'text/plain' });
-//     element.href = URL.createObjectURL(file);
-//     element.download = 'timetable.json';
-//     document.body.appendChild(element);
-//     element.click();
-//   };
-
-//   const regenerateTimetable = () => {
-//     // Regenerate timetable here
-//     fetchTimetable();
-//   };
-
-//   const generateTimeSlots = () => {
-//     const timeSlots = [];
-//     const start = new Date(`01/01/2000 ${startTime}`);
-//     const end = new Date(`01/01/2000 ${endTime}`);
-//     while (start < end) {
-//       timeSlots.push(start.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }));
-//       start.setHours(start.getHours() + 1);
-//     }
-//     return timeSlots;
-//   };
-
-//   return (
-//     <div>
-//       <TableContainer component={Paper}>
-//         <Table>
-//           <TableHead>
-//             <TableRow>
-//               <TableCell>Day/Time</TableCell>
-//               {generateTimeSlots().map((slot, index) => (
-//                 <TableCell key={index}>{slot}</TableCell>
-//               ))}
-//             </TableRow>
-//           </TableHead>
-//           <TableBody>
-//             {timetable.map((day, index) => (
-//               <TableRow key={index}>
-//                 <TableCell>{day.day}</TableCell>
-//                 {generateTimeSlots().map((slot, index) => (
-//                   <TableCell key={index}>
-//                     {day.periods
-//                       .filter((period) => period.time === slot)
-//                       .map((period, index) => (
-//                         <div key={index}>
-//                           <div>Subject: {period.subject}</div>
-//                           <div>Faculty: {period.faculty}</div>
-//                           <div>Classroom: {period.classroom}</div>
-//                         </div>
-//                       ))}
-//                   </TableCell>
-//                 ))}
-//               </TableRow>
-//             ))}
-//           </TableBody>
-//         </Table>
-//       </TableContainer>
-//       <div style={{ marginTop: '20px' }}>
-//         <Button onClick={viewTimetable} variant="contained" color="primary">
-//           View
-//         </Button>{' '}
-//         <Button onClick={downloadTimetable} variant="contained" color="success">
-//           Download
-//         </Button>{' '}
-//         <Button onClick={regenerateTimetable} variant="contained" color="secondary">
-//           Regenerate
-//         </Button>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Timetable;

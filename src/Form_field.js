@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import './App.css';
+import { TimeTableContext } from './App';
+import Timetable from './Timetable';
 
 function Form_field() {
-  const [data, setData] = useState([{}])
+  
+  const {setFields} = useContext(TimeTableContext)
+
+  const [data,setData] = useState([])
   const [division, setDivision] = useState('');
   const [numberOfSubjects, setNumberOfSubjects] = useState(0);
   const [subjects, setSubjects] = useState([]);
@@ -24,36 +29,6 @@ function Form_field() {
     updatedFaculties[index][field] = value;
     setFaculties(updatedFaculties);
   };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const response = await fetch('YOUR_BACKEND_URL', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({
-  //         division,
-  //         numberOfSubjects,
-  //         subjects,
-  //         numberOfFaculties,
-  //         faculties,
-  //         numberOfClassrooms,
-  //         startTime,
-  //         endTime,
-  //         lunchBreak,
-  //       }),
-  //     });
-  //     if (response.ok) {
-  //       console.log('Timetable generated successfully!');
-  //     } else {
-  //       console.error('Failed to generate timetable.');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +55,7 @@ function Form_field() {
       if (response.ok) {
         const responseData = await response.json(); // Parse response JSON
         console.log("Response from backend", responseData);
+        setFields(responseData)
       } else {
         console.error('Failed to generate timetable.');
       }
@@ -256,6 +232,8 @@ function Form_field() {
         <button type="submit">Generate Timetable</button>
         </a>
       </form>
+
+      <Timetable />
     </div>
   );
 }

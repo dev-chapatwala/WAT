@@ -1,11 +1,9 @@
-// App.js
 import React, { createContext, useState } from 'react';
 import Timetable from './Timetable';
 import Form_field from './Form_field';
 import Hero from './Hero';
 import Chatbox from './Chatbox';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Home } from '@mui/icons-material';
 
 export const TimeTableContext = React.createContext("")
 
@@ -20,27 +18,25 @@ function App() {
     {Friday : { 0 : {'classroom': 0, 'faculty': 'Sameer sir', 'subject': 3}}}
   ])
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h1>TimeTable Generator</h1>
-      </header>
-      <main>
+  console.log(fields)
 
-<TimeTableContext.Provider ></TimeTableContext.Provider>
+  return (
+    <TimeTableContext.Provider value={{fields,setFields}}>
+      <>
+    <div className="App">
+
+{/* <TimeTableContext.Provider ></TimeTableContext.Provider> */}
         <Router>
           <Routes>
             <Route path='/' element={<Hero/>}/>
-            <Route path='/timetable' element={<Timetable/>}/>
+            <Route path='/timetable' element={<Timetable value={{fields,setFields}} />}/>
             <Route path='/form_field' element={<Form_field/>}/>
           </Routes>
         </Router>
-        {/* <Hero /> */}
-        {/* <Timetable /> */}
-        {/* <Form_field /> */}
-      </main>
       <Chatbox />
     </div>
+    </>
+    </TimeTableContext.Provider>
   );
 }
 
