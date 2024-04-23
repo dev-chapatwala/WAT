@@ -18,7 +18,33 @@ db = MongoEngine(app)
 
 def generate_timetable(classrooms, total_subjects, faculties, time_slots, days):
 
+    # time_table = {day: {slot: {"subject": None, "faculty": None, "classroom": None} for slot in time_slots} for day in days}
     
+    # random.seed()
+
+    # classroom_availability = {day: {slot: set() for slot in time_slots} for day in days}
+    # faculty_schedule = {faculty: {day: {slot: set() for slot in time_slots} for day in days} for faculty in faculties}
+
+    # subject = 0
+    # for day in days:
+    #     for slot in time_slots:
+    #         if subject >= len(total_subjects):
+    #             break
+    #         available_classrooms = set(range(classrooms)) - classroom_availability[day][slot]
+    #         if available_classrooms:
+    #             classroom = random.choice(list(available_classrooms))
+    #             faculty = random.choice(faculties)
+    #             if not faculty_schedule[faculty][day][slot]:
+    #                 time_table[day][slot]["subject"] = subject
+    #                 time_table[day][slot]["faculty"] = faculty
+    #                 time_table[day][slot]["classroom"] = classroom
+
+    #                 classroom_availability[day][slot].add(classroom)
+    #                 faculty_schedule[faculty][day][slot] = True
+    #                 subject += 1
+
+    # return time_table
+
     time_table = {}
     final_tt = [time_table]
     # Initialize the timetable with empty slots for each day and time slot

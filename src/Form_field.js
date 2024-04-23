@@ -56,6 +56,8 @@ function Form_field() {
         const responseData = await response.json(); // Parse response JSON
         console.log("Response from backend", responseData);
         setFields(responseData)
+       // Set the redirect state to true
+       window.location.href('http://localhost:3000/timetable')
       } else {
         console.error('Failed to generate timetable.');
       }
@@ -98,6 +100,7 @@ function Form_field() {
 
   return (
     <div>
+      
       <h1>TimeTable Generator</h1>
       <br></br>
       <form onSubmit={handleSubmit}>
@@ -233,7 +236,7 @@ function Form_field() {
         </a>
       </form>
 
-      <Timetable />
+      {/* <Timetable /> */}
     </div>
   );
 }

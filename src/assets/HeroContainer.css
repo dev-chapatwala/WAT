@@ -1,0 +1,289 @@
+.Main-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  .tagline {
+    font-size: 4em;
+    font-weight: 900;
+    transition: font-size 1s ease-in-out;
+  }
+  .agents-section h3{
+    margin-top: 4rem;
+  }
+  .basic-info-text {
+    /* max-width: 5em; */
+    margin-top: 1.2em;
+    font-size: 1.3em;
+    font-weight: 400;
+    max-width: 35vw;
+    color: grey;
+    margin-left: 0;
+    transition: max-width 1s ease-in-out;
+  }
+  .main-texts {
+    margin-left: 6em;
+    float: right;
+    width: 70%;
+    margin-right: 3rem;
+  }
+  .main-image img {
+    float: left;
+    max-width: 100%;
+    max-height: 120vh;
+    object-fit: contain;
+  }
+  .button-section {
+    margin-top: 2rem;
+  }
+  .button-section button {
+    background-color: #94B682;
+    padding: 0.9rem;
+    width: 35%;
+    border-color: transparent;
+    border-radius: 0.3rem;
+  }
+  .button-section button:hover {
+    cursor: pointer;
+  }
+  .button-section p {
+    color: white;
+    font-weight: 500;
+    font-size: 1.2em;
+  }
+  
+  /* media queries  */
+  
+  @media (max-width: 1249px) {
+    .tagline {
+      font-size: 2.5em;
+    }
+  
+    .basic-info-text {
+      font-size: 1em;
+      max-width: 50vw;
+    }
+  
+    .main-texts {
+      margin-left: 4em;
+      margin-right: 3rem;
+    }
+  
+    .button-section button {
+      width: 40%;
+    }
+  
+    .button-section p {
+      font-size: 0.9em;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .Main-section {
+      margin-bottom: 0px;
+    }
+    .tagline {
+      font-size: 2em;
+    }
+    .basic-info-text {
+      font-size: 1em;
+      max-width: 50vw;
+    }
+    .main-texts {
+      margin-left: 3em;
+      margin-right: 2rem;
+    }
+    .button-section button {
+      width: 40%;
+      font-size: 1rem;
+    }
+  }
+  @media (min-width: 450px) and (max-width: 800px) {
+    .Main-section {
+      position: relative;
+      display: grid;
+      place-items: center;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr; 
+    }
+  
+    .main-image img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+    }
+    .main-image {
+      top: 0px;
+      position: relative;
+      width: 100vw;
+      height: 55vh;
+      object-fit: cover;
+      z-index: -1;
+      grid-row: 1; 
+      grid-column: 1;
+    }
+  
+    .main-texts {
+      position: relative;
+      background-color: rgba(255, 255, 255, 1);
+      width: 90%;
+      max-width: 80%;
+      z-index: 5;
+      height: auto;
+      padding: 6.3% 3.3%;
+      margin: 0px;
+      border-radius: 0.5rem;
+      grid-row: 1; /* Place division 2 in the first row */
+    grid-column: 1; /* Place division 2 in the second column */
+    }
+    .basic-info-text {
+      min-width: 100%;
+    }
+    .button-section button{
+      font-size: 1.1rem;
+    }
+  }
+  
+  @media (min-width: 190px) and (max-width: 450px) {
+    .Main-section {
+      position: relative;
+      display: grid;
+      place-items: center;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr;
+    }
+  
+    .main-image img {
+      width: 100vw;
+      height: 100%;
+      object-fit: cover;
+    }
+    .main-image {
+      top: 0px;
+      position: relative;
+      width: 100vw;
+      height: 50vh;
+      object-fit: cover;
+      z-index: -1;
+      grid-row: 1; 
+    grid-column: 1;
+    }
+  
+    .main-texts {
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.9);
+      width: 90%;
+      max-width: 80%;
+      z-index: 5;
+      height: auto;
+      padding: 6.3% 3.3%;
+      margin: 1rem 0px;
+      margin-top: 0px;
+      border-radius: 0.5rem;
+      grid-row: 1; 
+      grid-column: 1; 
+    }
+    .basic-info-text {
+      min-width: 100%;
+      font-size: 0.8rem;
+    }
+    .tagline {
+      font-size: 1.5rem;
+    }
+    .button-section {
+      margin-top: 2rem;
+    }
+    .button-section button {
+      background-color: #2988f8;
+      padding: 0.5rem;
+      width: 40%;
+      border-color: transparent;
+      border-radius: 0.3rem;
+      font-size: 0.5rem;
+    }
+    .button-section button:hover {
+      cursor: pointer;
+    }
+  }
+
+
+  .team-section {
+    background-color: white;
+  }
+  .team-section h1 {
+    font-size: 2rem;
+    text-align: center;
+  }
+  .team-section p {
+    color: grey;
+    font-size: 1.3rem;
+    margin-top: 1.2rem;
+    text-align: center;
+  }
+  
+  
+  .team-section {
+      text-align: center;
+    }
+    
+    .agents-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    
+    .agent-div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 1rem 0px;
+      flex-basis: calc(30% - 20px);
+      /* Not sure if this works or not  */
+      transition: image 1s ease-in-out;
+    }
+    
+    .agent-div img {
+      /* width: 100px;
+      height: 100px; */
+      border-radius: 50%;
+      max-width: 200px;
+    }
+    
+    .agent-div h3 {
+      margin-top: 10px;
+      font-size: 1.2em;
+    }
+    
+  
+  
+  
+    /* Media Queries */
+  
+  /* Breakpoint 1: max-width: 1249px */
+  @media (max-width: 1249px) {
+    .agent-div {
+      flex-basis: calc(33.33% - 20px);
+    }
+  }
+  
+  /* Breakpoint 2: max-width: 1024px */
+  @media (max-width: 1024px) {
+    .agent-div {
+      flex-basis: calc(50% - 20px);
+    }
+  }
+  
+  /* Breakpoint 3: min-width: 450px and max-width: 740px */
+  @media (min-width: 450px) and (max-width: 740px) {
+    .agent-div {
+      flex-basis: calc(50% - 20px);
+    }
+  }
+  
+  /* Breakpoint 4: min-width: 190px and max-width: 450px */
+  @media (min-width: 190px) and (max-width: 450px) {
+    .agent-div {
+      flex-basis: calc(100% - 20px);
+    }
+  }

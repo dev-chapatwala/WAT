@@ -1,30 +1,60 @@
-// Hero.js
-import React from 'react';
+import React, { useState } from 'react';
+import './assets/HeroContainer.css'
+import img from './assets/img.jpg'
+import data from './assets/data.json'
 
 function Hero() {
+  const [TeamData, setTeamData] = useState(data);
   return (
-    <section className="text-gray-600 body-font">
-      <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-        <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-          <h1 className="title-font sm:text-4xl text-3xl mb-4 font-medium text-gray-900">Welcome to TimeTable Generator</h1>
-          <p className="mb-8 leading-relaxed">Easily create and manage your daily schedule with our TimeTable Generator. Stay organized and productive!</p>
-          <div className="flex justify-center">
-
-            <a href='/form_field'>
-            <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Create TimeTable</button>
+    <>
+    <div className="hero-container">
+      <div className="Main-section">
+        <div className="main-texts">
+          <p className="tagline">
+            Time Table <br /> Generator
+          </p>
+          <p className="basic-info-text">
+          Effortlessly Organize Your Time with our User-Friendly Timetable Generator.
+          </p>
+          <section className="button-section">
+            <a href="/form_field">
+            <button>
+              <p>Generate</p>
+            </button>
             </a>
-            <a>
-
-            <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">Learn More</button>
-            </a>
-
-          </div>
+          </section>
         </div>
-        <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-          <img className="object-cover object-center rounded" alt="hero" src="https://dummyimage.com/720x600" />
+        <div className="main-image">
+          <img src={img} alt="hero" />
+          {/* <img src="https://pokemonletsgo.pokemon.com/assets/img/common/char-pikachu.png" alt="hero" /> */}
         </div>
       </div>
-    </section>
+    </div>
+    <div className="team-section">
+        <h1>Our Team</h1>
+        <section className="agents-section">
+          {TeamData.map((TeamdsData) => {
+            return (
+              <>
+                <div className="agent-div">
+                <a href={TeamdsData.portfolio} target='_blank'><img
+                    src={TeamdsData.agentImage}
+                    alt=""
+                  /></a>
+                  
+                  <h1>{TeamdsData.agentName}</h1>
+                {/* {TeamdsData.portfolio && <h3>
+                    {}
+                 
+                  </h3>} */}
+                  
+                </div>
+              </>
+            );
+          })}
+        </section>
+      </div>
+  </>
   );
 }
 

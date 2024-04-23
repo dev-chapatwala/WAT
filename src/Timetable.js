@@ -58,13 +58,7 @@ function Timetable() {
       },
     ];
 
-    if (!fields || Object.keys(fields).length === 0) {
-      // If fields are undefined, null, or empty, set mock timetable data
-      setTimetable(mockTimetableData);
-    } else {
-      // If fields are not empty, convert the schedule
-      convertSchedule(fields);
-    }
+   setTimetable(mockTimetableData)
   }, [fields],[]);
 
   const convertSchedule = (originalData) => {
