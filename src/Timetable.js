@@ -7,8 +7,6 @@ function Timetable() {
   const { fields } = useContext(TimeTableContext);
   const [finalData, setFinalData] = useState([])
 
-  const daysOfWeek = Object.keys(fields);
-
   console.log('Fields: ', fields)
 
   useEffect(() => {
@@ -58,8 +56,22 @@ function Timetable() {
       },
     ];
 
-   setTimetable(mockTimetableData)
-  }, [fields],[]);
+    if (JSON.stringify(fields[0].Friday) === JSON.stringify({
+      "0": {
+          "classroom": 0,
+          "faculty": "Sameer sir",
+          "subject": 3
+      }
+  })) {
+      console.log("I'm in if block");
+      setTimetable(mockTimetableData);
+  } else {
+
+    console.log("I'm in else block")
+      convertSchedule(fields)
+  }
+  
+  }, []);
 
   const convertSchedule = (originalData) => {
     const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -70,17 +82,18 @@ function Timetable() {
 
       Object.values(originalData[0][day]).forEach((period, index) => {
         if (period.classroom !== null && period.faculty !== null && period.subject !== null) {
-          // Modify time according to index
           let time = '';
-          if (index < 3) time = '9:00 AM';
+          if (index === 1) time = '9:00 AM';
+          else if (index === 2) time = '10:00 AM';
           else if (index === 3) time = '11:00 AM';
-          else if (index === 4) time = '1:00 PM';
+          else if (index === 4) time = '12:00 PM';
           else if (index === 5) time = '2:00 PM';
-          else if (index === 6) time = '4:00 PM';
+          else if (index === 6) time = '3:00 AM';
+          else if (index === 7) time = '4:00 PM';
 
           periods.push({
             time,
-            subject: 'Subject', // You should replace this with the actual subject
+            subject: 'Subject' + index, // You should replace this with the actual subject
             faculty: period.faculty,
             classroom: period.classroom.toString()
           });
@@ -95,7 +108,7 @@ function Timetable() {
 
     setTimetable(convertedData)
   };
-  
+
 
   const viewTimetable = () => {
     console.log(timetable);
@@ -218,15 +231,9 @@ function Timetable() {
         </Table>
       </TableContainer>
       <div style={{ marginTop: '20px' }}>
-        <Button onClick={viewTimetable} variant="contained" size="small" color="primary">
-          View
-        </Button>{' '}
-        <Button onClick={downloadTimetable} variant="contained" size="small" color="success">
+        <Button onClick={downloadTimetable} variant="contained" size="small" color="primary">
           Download
         </Button>{' '}
-        <Button onClick={regenerateTimetable} variant="contained" size="small" color="secondary">
-          Generate
-        </Button>
       </div>
     </div>
   );

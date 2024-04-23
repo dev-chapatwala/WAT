@@ -236,7 +236,7 @@ function Form_field() {
         </a>
       </form>
 
-      {/* <Timetable /> */}
+      <Timetable />
     </div>
   );
 }

@@ -18,6 +18,10 @@ function App() {
     {Friday : { 0 : {'classroom': 0, 'faculty': 'Sameer sir', 'subject': 3}}}
   ])
 
+ 
+
+  console.log(fields[0].Friday)
+
   console.log(fields)
 
   return (

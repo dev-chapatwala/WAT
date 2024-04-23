@@ -4,17 +4,17 @@ from flask import Flask, jsonify, request
 import random
 from flask_cors import CORS
 import pprint
-from flask_mongoengine import MongoEngine
-from models import Timetable
+# from flask_mongoengine import MongoEngine
+# from models import Timetable
 
 app = Flask(__name__)
 CORS(app)
 
-app.config['MONGODB_SETTINGS'] = {
-    'db': 'your_database_name',
-    'host': 'mongodb://localhost/your_database_name'
-}
-db = MongoEngine(app)
+# app.config['MONGODB_SETTINGS'] = {
+#     'db': 'your_database_name',
+#     'host': 'mongodb://localhost/your_database_name'
+# }
+# db = MongoEngine(app)
 
 def generate_timetable(classrooms, total_subjects, faculties, time_slots, days):
 
@@ -112,9 +112,12 @@ def get_timetable():
     time_slots = [0,1,2,3,4,5,6,7]
     days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
 
+    for div in range(1, len(division) + 1):
+         print(div)
+
     timetable_generated = generate_timetable(num_classrooms, total_subjects, faculties, time_slots, days)
-    timetable = Timetable(division=division, timetable_data=timetable_generated)
-    timetable.save()
+    # timetable = Timetable(division=division, timetable_data=timetable_generated)
+    # timetable.save()
     # timetable = {"Monday": {"0": {"subject": "Math", "faculty": "Rajeev sir", "classroom": "101"}}, "Tuesday": {"0": {"subject": "Science", "faculty": "Sameer sir", "classroom": "102"}}}
     return timetable_generated
 
