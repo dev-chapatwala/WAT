@@ -145,6 +145,18 @@ function Timetable() {
     element.click();
   };
 
+  
+
+  const downloadFaculty = () => {
+    // Code to download the timetable as a file
+    const element = document.createElement('a');
+    const file = new Blob([JSON.stringify(faculty)], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'timetable.json';
+    document.body.appendChild(element);
+    element.click();
+  };
+
   const regenerateTimetable = () => {
     // Regenerate timetable here
   };
@@ -285,23 +297,36 @@ function Timetable() {
         </Button>{' '}
       </div>
       <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Faculty schedule</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {faculty.map((facultyObj, index) => (
-            <TableRow key={index}>
-              {Object.entries(facultyObj).map(([name, value]) => (
-                <TableCell key={name}>{value}</TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Teacher</TableCell>
+                        <TableCell>Monday</TableCell>
+                        <TableCell>Tuesday</TableCell>
+                        <TableCell>Wednesday</TableCell>
+                        <TableCell>Thursday</TableCell>
+                        <TableCell>Friday</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {Object.entries(classrooms).map(([teacher, schedule]) => (
+                        <TableRow key={teacher}>
+                            <TableCell>{teacher[0]}</TableCell>
+                            {Object.values(schedule).map((times, index) => (
+                                <TableCell key={index}>
+                                    {times[0] == 1 ? "Available" : "Not Available"}
+                                </TableCell>
+                            ))}
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    <div style={{ marginTop: '20px' }}>
+        <Button onClick={downloadFaculty} variant="contained" size="small" color="primary">
+          Download
+        </Button>{' '}
+      </div>
     </div>
   );
 }
